@@ -1,0 +1,3 @@
+# Go modules
+/go.sum
+/*.pdf
