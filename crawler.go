@@ -122,7 +122,9 @@ func main() {
 			row.Find("span.monster-type").Each(func(k int, t *goquery.Selection) {
 				multiplier := strings.TrimSpace(t.Next().Text())
 				typeName := strings.ToLower(strings.TrimSpace(t.Text()))
-				whenAttacked[typeName] = multiplier
+				if typeName != "" && multiplier != "" {
+					whenAttacked[typeName] = multiplier
+				}
 			})
 		})
 

@@ -102,7 +102,6 @@
     },
     "exp": "62",
     "when_attacked": {
-      "": "",
       "fairy": "0.5x",
       "fire": "0.5x",
       "ground": "2x",
@@ -128,7 +127,6 @@
     },
     "exp": "142",
     "when_attacked": {
-      "": "",
       "fairy": "0.5x",
       "fire": "0.5x",
       "ground": "2x",
@@ -155,7 +153,6 @@
     },
     "exp": "267",
     "when_attacked": {
-      "": "",
       "bug": "0.5x",
       "electric": "2x",
       "fairy": "0.5x",
