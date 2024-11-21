@@ -35,7 +35,7 @@ func main() {
 	var pokemons []Pokemon
 
 	// Step 1: Scrape Pokémon data from Pokedex.org (first 3 Pokémon)
-	for i := 1; i <= 6; i++ {
+	for i := 1; i <= 649; i++ {
 		var pokemon Pokemon
 		err := chromedp.Run(ctx,
 			chromedp.Navigate(fmt.Sprintf("https://pokedex.org/#/pokemon/%d", i)),
