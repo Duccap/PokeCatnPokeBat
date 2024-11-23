@@ -29,7 +29,7 @@ func main() {
 	defer cancel()
 
 	// Extend the timeout for our operations
-	ctx, cancel = context.WithTimeout(ctx, 900*time.Second)
+	ctx, cancel = context.WithTimeout(ctx, 999999*time.Second)
 	defer cancel()
 
 	var pokemons []Pokemon
@@ -39,7 +39,7 @@ func main() {
 		var pokemon Pokemon
 		err := chromedp.Run(ctx,
 			chromedp.Navigate(fmt.Sprintf("https://pokedex.org/#/pokemon/%d", i)),
-			chromedp.Sleep(5*time.Second),
+			chromedp.Sleep(2*time.Second),
 			chromedp.Evaluate(`document.querySelector(".detail-header .detail-national-id").innerText.replace("#", "")`, &pokemon.ID),
 			chromedp.Evaluate(`document.querySelector(".detail-panel-header").innerText`, &pokemon.Name),
 			chromedp.Evaluate(`Array.from(document.querySelectorAll('.detail-types span.monster-type')).map(elem => elem.innerText)`, &pokemon.Types),
@@ -50,7 +50,8 @@ func main() {
 			}))`, &pokemon.Stats),
 		)
 		if err != nil {
-			log.Fatalf("Failed to extract data for ID %d: %v", i, err)
+			fmt.Println("Failed to extract data for ID %d: %v", i, err)
+			continue
 		}
 		pokemons = append(pokemons, pokemon)
 		fmt.Printf("Crawled data for Pokemon ID %d\n", i)
@@ -97,6 +98,7 @@ func main() {
 	// Step 4: Scrape "When Attacked" data from Pokedex.org using chromedp
 	basePokedexURL := "https://pokedex.org/#/pokemon/"
 	for i := range pokemons {
+		fmt.Printf("Fetching When Attacked data for %s...\n", pokemons[i].Name)
 		url := fmt.Sprintf("%s%s", basePokedexURL, pokemons[i].ID)
 
 		var whenAttackedHTML string
@@ -129,10 +131,12 @@ func main() {
 		})
 
 		pokemons[i].WhenAttacked = whenAttacked
+		fmt.Printf("Fetched When Attacked data for %s\n", pokemons[i].Name)
 	}
 
 	// Step 5: Save the merged Pokémon data to a JSON file
 	file, err := os.Create("pokedex.json")
+	fmt.Println("Saving Pokedex data to pokedex.json...")
 	if err != nil {
 		log.Fatal("Cannot create file", err)
 	}
